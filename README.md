@@ -1,0 +1,1 @@
+El proyecto es un Sistema Inteligente de Priorización y Clasificación de Pacientes en Salas de Emergencia diseñado para un Hospital de Trujillo, desarrollado por cinco estudiantes de Ingeniería de Sistemas de la UTP como parte del curso "Herramientas de Desarrollo" (Ciclo VII, 2026).
