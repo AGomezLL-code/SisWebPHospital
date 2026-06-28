@@ -1,13 +1,13 @@
-name: Prueba Unitaria de Triaje CI
+name: Pipeline de Triaje Inteligente (CI/CD)
 
 on:
   push:
     branches: [ main, develop ]
 
 jobs:
+  # 1. ETAPA DE INTEGRACIÓN CONTINUA (CI)
   test-triaje:
     runs-on: ubuntu-latest
-
     steps:
       - name: Clonar repositorio
         uses: actions/checkout@v4
@@ -22,3 +22,38 @@ jobs:
 
       - name: Ejecutar Prueba del Algoritmo
         run: pytest test_algoritmo.py
+
+  # 2. ETAPA DE DESPLIEGUE CONTINUO (CD) - Se ejecuta SOLO si el CI pasa con éxito
+  deploy-aws:
+    runs-on: ubuntu-latest
+    needs: test-triaje # Bloquea el despliegue si las pruebas unitarias fallan
+    
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+
+      # Simulación de Autenticación Segura en AWS
+      - name: Configurar Credenciales de AWS (IAM)
+        run: |
+          echo "Autenticando de forma segura con AWS_ACCESS_KEY_ID..."
+          echo "Estableciendo conexión cifrada con la región us-east-1 (AWS)..."
+          sleep 1
+
+      # Simulación de empaquetado Docker y subida a Amazon ECR
+      - name: Construir y Subir Imagen Docker a Amazon ECR
+        run: |
+          echo "Iniciando: docker build -t triaje-backend:latest ."
+          echo "Compilando capas del backend en FastAPI y librerías médicas..."
+          echo "Subiendo imagen empaquetada: docker push aws_account_id.dkr.ecr.us-east-1.amazonaws.com/triaje-backend:latest"
+          sleep 2
+          echo "Imagen Docker resguardada con éxito en Amazon ECR."
+
+      # Simulación de actualización en Amazon EKS (Zero-Downtime)
+      - name: Desplegar Actualización en Amazon EKS Cluster
+        run: |
+          echo "Conectando al plano de control de Kubernetes (EKS)..."
+          echo "Ejecutando: kubectl set image deployment/triaje-backend backend=aws_account_id.dkr.ecr.us-east-1.amazonaws.com/triaje-backend:latest"
+          echo "Iniciando estrategia Rolling Update en subredes privadas..."
+          echo "Verificando estado de los nuevos Pods en las instancias EC2..."
+          sleep 2
+          echo "¡Despliegue exitoso en AWS! Versión operativa sin interrupción del servicio hospitalario."
